@@ -1,5 +1,6 @@
 API
 ===
+.. code-block:: JSON
 {
   "Sex": "string",
   "Age": "integer",

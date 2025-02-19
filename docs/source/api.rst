@@ -1,7 +1,51 @@
 API
 ===
+{
+  "Sex": "string",
+  "Age": "integer",
+  "Weight": "float",
+  "Height": "float",
+  "Creatinine": "float",
+  "Serum_Creatinine": "float",
+  "Serum_Cystatin_C": "float",
+  "Systolic_BP": "integer",
+  "Diastolic_BP": "integer",
+  "Diabetes": "boolean",
+  "Smoker": "boolean",
+  "Total_Cholesterol": "float",
+  "HDL_Cholesterol": "float",
+  "Hypertension_Treatment": "boolean",
+  "Using_Statins": "boolean",
+  "BMI": "float",
+  "Waist_Circumference_in": "float",
+  "GGT": "integer",
+  "Calcium_mg_dL": "float",
+  "Triglycerides_mg_dL": "float",
+  "AST": "integer",
+  "HbA1c": "float",
+  "Albumin_g_dL": "float",
+  "Normal_albumin_g_dL": 4,
+  "Normal_albumin_g_L": 40,
+  "Albumin_Concentration_of_Serum": "float",
+  "Albumin_Concentration_of_Ascitic_Fluid": "float",
+  "Impaired_Fasting_Glucose_Diabetic": "boolean",
+  "ALT": "integer",
+  "Platelet_Count": "integer",
+  "Bilirubin": "float",
+  "Urine_Protein_mg_dL": "float",
+  "Urine_Creatinine_mg_dL": "float",
+  "Insulin": "float",
+  "Glucose_mg_dL": "float",
+  "Bicarbonate_mEq_L": "float",
+  "SpO2_percent": "float",
+  "FiO2_percent": "float",
+  "Serum_C_peptide_ng_mL": "float",
+  "Plasma_Glucose_mg_dL": "float",
+  "Dextrose_Concentration_g_dL": "float",
+  "Infusion_Rate_mL_hr": "float",
+  "From_NA": "boolean",
+  "eGFR_mL_min_1.73m2": "float",
+  "Urine_Albumin_to_creatinine_ratio_mg_g": "float",
+  "Phosphorous_mg_dL":
+}
 
-.. autosummary::
-   :toctree: generated
-
-   lumache

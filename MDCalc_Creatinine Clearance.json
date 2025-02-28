@@ -1,0 +1,123 @@
+{
+    "SystemId": "MDCalc 43",
+    "Name": "Creatinine Clearance (Cockcroft-Gault Equation)",
+    "description": "Can be used to estimate kidney function for CKD staging. Can be used to adjust or discontinue medications based on kidney function.",
+    "inputs": [
+        {
+            "name": "sex",
+            "value": "M",
+            "type": "enum",
+            "enum_values": ["M", "F"],
+            "required": true
+        },
+        {
+            "name": "age",
+            "unit": "years",
+            "value": "25",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "weight",
+            "unit": "lb",
+            "value": "200",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "creatinine",
+            "unit": "mg/dL",
+            "value": "1.0",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "height",
+            "unit": "in",
+            "value": "72",
+            "type": "float",
+            "required": false
+        }
+    ],
+    "states": [
+        {
+            "name": "determine_sex",
+            "type": "conditional transition",
+            "transitions": [
+                {
+                    "conditions": "$sex$ == 'M' and $height$ is None",
+                    "next_step": "calculate_CrCl_with_exact_weight_male"
+                },
+                {
+                    "conditions": "$sex$ == 'F' and $height$ is None",
+                    "next_step": "calculate_CrCl_with_exact_weight_female"
+                },
+                {
+                    "condition": "$sex$ == 'F' and $height$ is not None",
+                    "next_step": "F_calculate_IBW"
+                },
+                {
+                    "condition": "$sex$ == 'M' and $height$ is not None",
+                    "next_step": "M_calculate_IBW"
+                }
+            ]
+        },
+        {
+            "name": "M_calculate_IBW",
+            "type": "calculation",
+            "equation": "IBW = 50 + [2.3 * (height - 60)]",
+            "transitions" : [
+                {
+                    "next_step":"calculate_ABW"
+                }
+            ]
+        },
+        {
+            "name": "F_calculate_IBW",
+            "type": "calculation",
+            "equation": "IBW = 45.5 + [2.3 * (height - 60)]"
+        },
+        {
+            "name": "calculate_ABW",
+            "type": "calculation",
+            "equation": "ABW = IBW + 0.4 * ((weight / 2.20462) - IBW)"
+        },
+        {
+            "name": "calculate_CrCl_with_exact_weight_male",
+            "type": "calculation",
+            "equation": "CrCl = (140 - age) * (weight / 2.20462) * (1.0) / (72 * creatinine)"
+        },
+        {
+            "name": "calculate_CrCl_with_exact_weight_female",
+            "type": "calculation",
+            "equation": "CrCl = (140 - age) * (weight / 2.20462) * (0.85) / (72 * creatinine)"
+        },
+        {
+            "name": "calculate_CrCl_with_adjusted_weight",
+            "type": "calculation",
+            "equation": "CrCl = (140 - age) * (ABW) * (0.85 if sex == 'F' else 1.0) / (72 * creatinine)"
+        }
+    ],
+    "transitions": [
+        {
+            "condition": "$height$ is None",
+            "next_step": "calculate_CrCl_with_exact_weight"
+        },
+        {
+            "condition": "$height$ != ''",
+            "next_step": "calculate_adjusted_BW"
+        }
+    ],
+    "output": [
+        {
+            "name" : "Creatinine clearance without height",
+            "unit" : "mL/min",
+            "description" : "original Cockcroft-Gault without height. Uses actual weight"
+        },
+        {
+            "name" : "Creatinine clearance with height",
+            "unit" : "mL/min",
+            "description" : " Cockcroft-Gault with height. Uses ABW"
+        }
+    ]
+}

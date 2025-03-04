@@ -18,26 +18,30 @@
             "required": true
         }
     ],
-    "steps": [
+    "states": [
         {
             "name": "calculate_saag",
             "type": "calculation",
-            "equation": "SAAG = albumin_serum - albumin_ascitic_fluid"
-        }
-    ],
-    "output": [
+            "equation": "$SAAG$ = $albumin_serum$ - $albumin_ascitic_fluid$",
+            "transitions": [
+                {
+                    "next_step" : "SAAG_output"
+                }
+            ]
+        },
         {
-            "name": "SAAG",
+            "name": "SAAG_output",
+            "type" : "output",
             "unit": "g/dL",
             "description": "Serum Ascites Albumin Gradient.",
             "meaning": [
                 {
-                    "condition": "SAAG > 1.1",
+                    "condition": "$SAAG$ > 1.1",
                     "message": "SAAG > 1.1 g/dL indicates portal hypertension is likely the cause of ascites with 97% accuracy."
                 },
                 {
-                    "condition" : "SAAG <= 1.1",
-                    "message" : "SAAG scores do not indicate the cause of the portal hypertension."
+                    "condition": "$SAAG$ <= 1.1",
+                    "message": "SAAG scores do not indicate the cause of the portal hypertension."
                 }
             ]
         }

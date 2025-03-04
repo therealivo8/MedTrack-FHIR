@@ -25,18 +25,22 @@
             "required": true
         }
     ],
-    "steps": [
+    "states": [
         {
             "name": "calculate_ldl",
             "type": "calculation",
-            "equation": "LDL = total_cholesterol - hdl_cholesterol - (triglycerides / 5)"
-        }
-    ],
-    "output": [
+            "equation": "$LDL$ = $total_cholesterol$ - $hdl_cholesterol$ - ($triglycerides$ / 5.0)",
+            "transitions": [
+                {
+                    "next_step" : "LDL_Calculated_output"
+                }
+            ]
+        },
         {
-            "name": "LDL_Cholesterol",
+            "name": "LDL_Calculated_output",
+            "type" : "output",
             "unit": "mg/dL",
             "description": "Calculated LDL level using the Friedewald formula."
         }
-    ]  
+    ]
 }

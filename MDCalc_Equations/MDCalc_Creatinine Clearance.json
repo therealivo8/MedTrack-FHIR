@@ -144,15 +144,17 @@
         },
         {
             "name" : "CrCl_output_height",
+            "type": "output",
             "unit" : "mL/min",
             "value" : "0.0",
             "description" : "original Cockcroft-Gault without height. Uses actual weight"
         },
         {
             "name" : "CrCl_output_no_height",
+            "type": "output",
             "unit" : "mL/min",
             "value" : "0.0",
-            "description" : " Cockcroft-Gault with height. Uses ABW"
+            "description" : "Cockcroft-Gault with height. Uses ABW"
         }
     ]
 }

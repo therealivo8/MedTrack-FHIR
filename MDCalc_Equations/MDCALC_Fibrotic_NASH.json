@@ -25,28 +25,28 @@
             "required": true
         }
     ],
-    "steps": [
+    "states": [
         {
             "name": "calculate_x",
             "type": "calculation",
-            "equation": "x = -10.33 + 2.54 * ln(AST) + 3.86 * ln(HbA1c) - 1.66 * ln(HDL)"
+            "equation": "$x$ = -10.33 + 2.54 * ln($AST$) + 3.86 * ln($HbA1c$) - 1.66 * ln($HDL$)",
+            "transitions": []
         },
         {
             "name": "calculate_FNI",
             "type": "calculation",
-            "equation": "FNI = math.exp(x) / (1 + math.exp(x))"
-        }
-    ],
-    "transitions": [],
-    "output": [
-        {
-            "name" : "predicted_probability",
-            "unit" : "%",
-            "description" : "Predicted probability of fibrotic NASH."
+            "equation": "$FNI$ = math.exp($x$) / (1 + math.exp($x$))",
+            "transitions": [
+                {
+                    "next_step" : "predicted_probability_output"
+                }
+            ]
         },
         {
-            "name": "FNI_message",
-            "description": "Your predicted probability of fibrotic NASH is X%. Fibrotic NASH can be ruled out if the FNI value is ≤ 0.10."
+            "name" : "predicted_probability_output",
+            "type" : "output",
+            "unit": "%",
+            "description": "Predicted probability of fibrotic NASH.Your predicted probability of fibrotic NASH is X%. Fibrotic NASH can be ruled out if the FNI value is ≤ 0.10."
         }
     ]
 }

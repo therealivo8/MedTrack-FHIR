@@ -1,0 +1,45 @@
+{
+    "SystemId": "MDCalc 2",
+    "Name": "Serum Ascites Albumin Gradient (SAAG)",
+    "description": "Defines the presence of portal hypertension in patients with ascites.",
+    "inputs": [
+        {
+            "name": "albumin_serum",
+            "unit": "g/dL",
+            "value": "5.5",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "albumin_ascitic_fluid",
+            "unit": "g/dL",
+            "value": "4",
+            "type": "float",
+            "required": true
+        }
+    ],
+    "steps": [
+        {
+            "name": "calculate_saag",
+            "type": "calculation",
+            "equation": "SAAG = albumin_serum - albumin_ascitic_fluid"
+        }
+    ],
+    "output": [
+        {
+            "name": "SAAG",
+            "unit": "g/dL",
+            "description": "Serum Ascites Albumin Gradient.",
+            "meaning": [
+                {
+                    "condition": "SAAG > 1.1",
+                    "message": "SAAG > 1.1 g/dL indicates portal hypertension is likely the cause of ascites with 97% accuracy."
+                },
+                {
+                    "condition" : "SAAG <= 1.1",
+                    "message" : "SAAG scores do not indicate the cause of the portal hypertension."
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,39 @@
+{
+    "SystemId": "MDCalc 48",
+    "Name": "Calcium Correction for Hypoalbuminemia and Hyperalbuminemia",
+    "description": "Calculates a corrected calcium level for patients with hypoalbuminemia or hyperalbuminemia.",
+    "inputs": [
+        {
+            "name": "calcium",
+            "unit": "mg/dL",
+            "value": "9.5",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "albumin",
+            "unit": "g/dL",
+            "value": "3.0",
+            "type": "float",
+            "required": true
+        }
+    ],
+    "states": [
+        {
+            "name": "calculate_corrected_calcium",
+            "type": "calculation",
+            "equation": "$corrected_calcium$ = (0.8 * (4 - $albumin$)) + $calcium$",
+            "transitions": [
+                {
+                    "next_step" : "corrected_calcium_output"
+                }
+            ]
+        },
+        {
+            "name": "corrected_calcium_output",
+            "type" : "output",
+            "unit": "mg/dL",
+            "description": "Corrected calcium level accounting for albumin levels."
+        }
+    ]
+}

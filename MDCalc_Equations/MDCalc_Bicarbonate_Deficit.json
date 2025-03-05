@@ -1,0 +1,39 @@
+{
+    "SystemId": "MDCalc 51",
+    "Name": "Bicarbonate Deficit",
+    "description": "Calculates the total body bicarbonate deficit.",
+    "inputs": [
+        {
+            "name": "weight",
+            "unit": "lbs",
+            "value": "100",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "bicarbonate",
+            "unit": "mEq/L",
+            "value": "25",
+            "type": "float",
+            "required": true
+        }
+    ],
+    "states": [
+        {
+            "name": "calculate_bicarbonate_deficit",
+            "type": "calculation",
+            "equation": "$bicarbonate_deficit$ = 0.4 * ($weight$ / 2.20462) * (24 - $bicarbonate$)",
+            "transitions": [
+                {
+                    "next_step" : "bicarbonate_deficit_output"
+                }
+            ]
+        },
+        {
+            "name": "bicarbonate_deficit",
+            "type" : "output",
+            "unit": "mEq",
+            "description": "Total body bicarbonate deficit."
+        }
+    ]
+}

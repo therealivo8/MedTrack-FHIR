@@ -1,0 +1,53 @@
+{
+    "SystemId": "MDCalc 49",
+    "Name": "Fibrosis-4 (FIB-4) Index for Liver Fibrosis",
+    "description": "Noninvasive estimate of liver scarring in HCV and HBV patients, to assess need for biopsy.",
+    "inputs": [
+        {
+            "name": "age",
+            "unit": "years",
+            "value": "30",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "AST",
+            "unit": "U/L",
+            "value": "20",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "ALT",
+            "unit": "U/L",
+            "value": "20",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "platelet_count",
+            "unit": "*10³/µL",
+            "value": "200",
+            "type": "float",
+            "required": true
+        }
+    ],
+    "states": [
+        {
+            "name": "calculate_fib4",
+            "type": "calculation",
+            "equation": "$FIB4$ = ($age$ * $AST$) / ($platelet_count$ * math.sqrt($ALT$))",
+            "transitions": [
+                {
+                    "next_step" : "FIB4_output"
+                }
+            ]
+        },
+        {
+            "name": "FIB4_score_output",
+            "type" : "output",
+            "unit": "FIB-4 score",
+            "description": "Fibrosis-4 (FIB-4) Index for Liver Fibrosis. Interpretation of FIB-4 Score: <1.45 (0-1), 1.45-3.25 (2-3), >3.25 (4-6). Use with caution in patients <35 or >65 years old, as the score has been shown to be less reliable in these patients."
+        }
+    ]
+}

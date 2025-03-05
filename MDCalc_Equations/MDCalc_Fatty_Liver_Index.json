@@ -1,0 +1,63 @@
+{
+    "SystemId": "MDCalc 47",
+    "Name": "Fatty Liver Index (FLI)",
+    "description": "Diagnoses fatty liver using labs and exam findings.",
+    "inputs": [
+        {
+            "name": "BMI",
+            "unit": "kg/m²",
+            "value": "24",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "waist_circumference",
+            "unit": "in",
+            "value": "32",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "GGT",
+            "unit": "U/L",
+            "value": "30",
+            "type": "float",
+            "required": true
+        },
+        {
+            "name": "triglycerides",
+            "unit": "mg/dL",
+            "value": "120",
+            "type": "float",
+            "required": true
+        }
+    ],
+    "states": [
+        {
+            "name": "calculate_y",
+            "type": "calculation",
+            "equation": "$y$ = 0.953 * ln($triglycerides$) + 0.139 * $BMI$ + 0.718 * ln($GGT$) + 0.053 * $waist_circumference$ * 2.54 - 15.745",
+            "transitions": [
+                {
+                    "next_step" :"calculate_FLI"
+                }
+            ]
+        },
+        {
+            "name": "calculate_FLI",
+            "type": "calculation",
+            "equation": "$FLI$ = math.exp($y$) / (1 + math.exp($y$)) * 100",
+            "transitions": [
+                {
+                    "next_step" : "fatty_liver_index_output"
+                }
+            ]
+        },
+        {
+            "name": "fatty_liver_index_output",
+            "type" : "output",
+            "unit": "",
+            "description": "Fatty Liver Index (FLI). Your FLI is calculated. Fatty liver ruled out if FLI < 30 (LR- = 0.2). Indeterminate for FLI 30 to < 60. Fatty liver ruled in if FLI ≥ 60 (LR+ = 4.3)."
+        }
+    ]
+}

@@ -1,61 +1,75 @@
 {
-    "$id": "https://example.com/equations.schema.json",
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "description": "Schema for equations and related components",
-    "type": "object",
-    "properties": {
-      "SystemId": { "type": "string" },
-      "Name": { "type": "string" },
-      "description": { "type": "string" },
-      "inputs": {
-        "type": "array",
-        "items": { "$ref": "#/$defs/input" }
+  "$id": "https://example.com/equations.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Schema for equations and related components",
+  "type": "object",
+  "properties": {
+    "SystemId": { "type": "string" },
+    "Name": { "type": "string" },
+    "description": { "type": "string" },
+    "inputs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/input" }
+    },
+    "states": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/state" }
+    }
+  },
+  "required": ["SystemId", "Name", "description", "inputs", "states"],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "value": { "type": "string" },
+        "type": { "type": "string" },
+        "enum_values": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "required": { "type": "boolean" },
+        "unit": { "type": "string" },
+        "domain_hint": {
+          "type": "string",
+          "enum": ["Patient", "Condition", "Observation", "Measure", "Medication", "Procedure", "Encounter"]
+        }
       },
-      "states": {
-        "type": "array",
-        "items": { "$ref": "#/$defs/state" }
+      "required": ["name", "value", "type", "required"]
+    },
+    "state": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["calculation", "following_state", "final_output"]
+        },
+        "transitions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/transition" },
+          "default": null
+        },
+        "equation": { "type": "string" },
+        "value": { "type": "string" },
+        "unit": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["name", "type"],
+      "if": {
+        "properties": { "type": { "const": "final_output" } }
+      },
+      "then": {
+        "properties": { "transitions": { "default": null } }
       }
     },
-    "required": ["SystemId", "Name", "description", "inputs", "states"],
-    "$defs": {
-      "input": {
-        "type": "object",
-        "properties": {
-          "name": { "type": "string" },
-          "value": { "type": "string" },
-          "type": { "type": "string" },
-          "enum_values": {
-            "type": "array",
-            "items": { "type": "string" }
-          },
-          "required": { "type": "boolean" },
-          "unit": { "type": "string" }
-        },
-        "required": ["name", "value", "type", "required"]
+    "transition": {
+      "type": "object",
+      "properties": {
+        "conditions": { "type": "string" },
+        "next_state": { "type": "string" }
       },
-      "state": {
-        "type": "object",
-        "properties": {
-          "name": { "type": "string" },
-          "type": { "type": "string" },
-          "transitions": {
-            "type": "array",
-            "items": { "$ref": "#/$defs/transition" }
-          },
-          "equation": { "type": "string" },
-          "value": { "type": "string" },
-          "unit": { "type": "string" },
-          "description": { "type": "string" }
-        },
-        "required": ["name", "type"]
-      },
-      "transition": {
-        "type": "object",
-        "properties": {
-          "conditions": { "type": "string" },
-          "next_step": { "type": "string" }
-        },
-        "required": ["next_step"]
-      }
+      "required": ["next_state"]
     }
   }
+}

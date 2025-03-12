@@ -1,0 +1,21 @@
+digraph JSONSchema {
+    rankdir=LR;  // Set layout direction left-to-right
+    node [shape=record, style=filled, color=lightblue];  // Define node style
+
+    // Define main object
+    "Root" [label="{Root|SystemId, Name, description|{inputs|items ($ref: input)}|{states|items ($ref: state)}}"];
+
+    // Define `inputs` and its properties
+    "input" [label="{input|name, value, type, required, unit, domain_hint, enum_values}"];
+    "domain_hint" [label="{domain_hint|Patient, Condition, Observation, etc.}"];
+
+    // Define `states` and its properties
+    "state" [label="{state|name, type, transitions, equation, value, unit, description}"];
+    "transition" [label="{transition|conditions, next_state}"];
+
+    // Relationships between components
+    "Root" -> "input" [label="$ref"];
+    "input" -> "domain_hint" [label="enum"];
+    "Root" -> "state" [label="$ref"];
+    "state" -> "transition" [label="$ref"];
+}

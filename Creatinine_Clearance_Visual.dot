@@ -1,0 +1,31 @@
+digraph G {
+    node [shape=box];
+    rankdir=TB;
+
+    determine_sex [label="Determine Sex"];
+    M_calculate_IBW [label="M Calculate IBW"];
+    F_calculate_IBW [label="F Calculate IBW"];
+    F_calculate_ABW [label="F Calculate ABW"];
+    M_calculate_ABW [label="M Calculate ABW"];
+    calculate_CrCl_with_exact_weight_male [label="Calculate CrCl with Exact Weight (Male)"];
+    calculate_CrCl_with_exact_weight_female [label="Calculate CrCl with Exact Weight (Female)"];
+    calculate_CrCl_with_adjusted_weight_male [label="Calculate CrCl with Adjusted Weight (Male)"];
+    calculate_CrCl_with_adjusted_weight_female [label="Calculate CrCl with Adjusted Weight (Female)"];
+    CrCl_output_height [label="CrCl Output (Height)"];
+    CrCl_output_no_height [label="CrCl Output (No Height)"];
+
+    determine_sex -> calculate_CrCl_with_exact_weight_male [label="$sex$ == 'M' and $height$ is None"];
+    determine_sex -> calculate_CrCl_with_exact_weight_female [label="$sex$ == 'F' and $height$ is None"];
+    determine_sex -> F_calculate_IBW [label="$sex$ == 'F' and $height$ is not None"];
+    determine_sex -> M_calculate_IBW [label="$sex$ == 'M' and $height$ is not None"];
+
+    M_calculate_IBW -> M_calculate_ABW;
+    F_calculate_IBW -> F_calculate_ABW;
+    M_calculate_ABW -> calculate_CrCl_with_adjusted_weight_male;
+    F_calculate_ABW -> calculate_CrCl_with_adjusted_weight_female;
+
+    calculate_CrCl_with_exact_weight_male -> CrCl_output_no_height;
+    calculate_CrCl_with_exact_weight_female -> CrCl_output_no_height;
+    calculate_CrCl_with_adjusted_weight_male -> CrCl_output_height;
+    calculate_CrCl_with_adjusted_weight_female -> CrCl_output_height;
+}

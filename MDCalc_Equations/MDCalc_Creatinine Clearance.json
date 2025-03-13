@@ -42,7 +42,7 @@
     "states": [
         {
             "name": "determine_sex",
-            "type": "calculation",
+            "type": "transition_state",
             "transitions": [
                 {
                     "conditions": "$sex$ == 'M' and $height$ is None",

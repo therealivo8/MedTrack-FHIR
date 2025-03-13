@@ -43,7 +43,7 @@
         "name": { "type": "string" },
         "type": {
           "type": "string",
-          "enum": ["calculation", "following_state", "final_output"]
+          "enum": ["calculation", "transition_state", "final_output"]
         },
         "transitions": {
           "type": "array",
